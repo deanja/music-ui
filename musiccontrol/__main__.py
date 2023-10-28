@@ -1,9 +1,10 @@
 def take_input():
     user_input = input(
-        "Choose an option: [s]ocial_intrigue, [a]nything, [c]ombat, e[x]it "
+        "Choose a music genre to play: [s]ocial_intrigue, [a]nything, [c]ombat. Or e[x]it."
     )
     # doing something with the input
     return user_input
+
 
 def play_social_intrigue_music():
     print("switching to social intrigue music ...")
@@ -14,11 +15,17 @@ def play_social_intrigue_music():
 
     # Play the selected tracks
 
+    result = {"genre": "social_intrigue", "tracks": 5, "duration": 18}
+    return result
+
+
 def play_neutral_music():
     raise NotImplementedError
 
+
 def play_combat_music():
     raise NotImplementedError
+
 
 if __name__ == "__main__":
     print("Welcome to Music Control.")
@@ -38,4 +45,4 @@ if __name__ == "__main__":
             case _:
                 print("Warning: unkown option selected.")
 
-    print("Exiting Music Control.")
+    print("Exiting.")
