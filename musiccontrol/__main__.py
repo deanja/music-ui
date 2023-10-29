@@ -18,7 +18,7 @@ def play_social_intrigue_music(spotify):
     ]
 
     # Play them
-    player.play_tracks(spotify, track_uris)
+    player.play_tracks(spotify, track_uris, shuffle=True)
 
     result = {"genre": "social intrigue", "tracks": len(track_uris)}
     return result
@@ -26,7 +26,6 @@ def play_social_intrigue_music(spotify):
 
 def play_celtic_bangers(spotify):
     playlist_uri = "spotify:playlist:3HXdGvoKWYfjd6PxWvYb7D"
-
     player.play_playlist(spotify, playlist_uri, shuffle=False)
 
 
@@ -34,8 +33,9 @@ def play_neutral_music():
     raise NotImplementedError
 
 
-def play_combat_music():
-    raise NotImplementedError
+def play_combat_music(spotify):
+    playlist_uri = "spotify:playlist:6FohP6m1ipvNjgllOH4HLt"
+    player.play_playlist(spotify, playlist_uri, shuffle=True)
 
 
 def fade_out_music():
@@ -56,7 +56,7 @@ if __name__ == "__main__":
             case "a":
                 play_neutral_music()
             case "c":
-                play_combat_music()
+                play_combat_music(spotify)
             case "b":
                 play_celtic_bangers(spotify)
             case "n":
