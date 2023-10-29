@@ -3,7 +3,7 @@ from musiccontrol.spotify import player
 
 def take_input():
     user_input = input(
-        "Choose a music genre to play: [s]ocial_intrigue, [a]nything, [c]ombat, celtic_[b]angers. [n]ext_track or e[x]it."
+        "Choose a music genre to play: [s]ocial_intrigue, [a]nything, [c]ombat, celtic_[b]angers. [n]ext_track or e[x]it. "
     )
     # doing something with the input
     return user_input.lower()
@@ -23,8 +23,9 @@ def play_celtic_bangers(spotify):
     player.play_playlist(spotify, playlist_uri, shuffle=False)
 
 
-def play_neutral_music():
-    raise NotImplementedError
+def play_neutral_music(spotify):
+    playlist_uri = "https://open.spotify.com/playlist/4vAFb3x82WjaE6Gqq5Doxm?si=0a3c612831c649b4"
+    player.play_playlist(spotify, playlist_uri, shuffle=True)
 
 
 def play_combat_music(spotify):
@@ -48,7 +49,7 @@ if __name__ == "__main__":
             case "s":
                 play_social_intrigue_music(spotify)
             case "a":
-                play_neutral_music()
+                play_neutral_music(spotify)
             case "c":
                 play_combat_music(spotify)
             case "b":
