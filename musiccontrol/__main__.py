@@ -10,18 +10,12 @@ def take_input():
 
 
 def play_social_intrigue_music(spotify):
-    # Select the tracks
-    track_uris = [
-        "spotify:track:6roFHBn0kFsj0H0ud7gSTn",
-        "spotify:track:2a75ZwRbjH0HoN2ICXwcfV",
-        "spotify:track:3IXjLPOHEnWPqBupP5IlQM",
-    ]
+    playlist_uri = (
+        "https://open.spotify.com/playlist/0L5LqTiW0NOjke9FhsTUyA?si=97c01770204e4808"
+    )
 
     # Play them
-    player.play_tracks(spotify, track_uris, shuffle=True)
-
-    result = {"genre": "social intrigue", "tracks": len(track_uris)}
-    return result
+    player.play_playlist(spotify, playlist_uri, shuffle=True)
 
 
 def play_celtic_bangers(spotify):
