@@ -6,19 +6,16 @@ def take_input():
     user_input = input(
         "Choose a music mood to play: [s]ocial_intrigue, [a]nything, [c]ombat, celtic_[b]angers. [n]ext_track or e[x]it. "
     )
-    # doing something with the input
     return user_input.lower()
 
 
 def play_mood(mood_id, spotify):
     playlist_uri = None
-    track_uris = None
 
     mood_config = moods[mood_id]
 
-    # todo: support track_uris
     shuffle = mood_config[1]
-    playlist_uri = mood_config[3]
+    playlist_uri = mood_config[2]
 
     result = player.play_selection(spotify, playlist_uri=playlist_uri, shuffle=shuffle)
     if result.is_success:
