@@ -12,7 +12,7 @@ moods = {
     "combat": {
         "ui_key": "c",
         "shuffle": True,
-        "spotify_context_uri": "https://open.spotify.com/playlist/6FohP6m1ipvNjgllOH4HLt",
+        "spotify_context_uri": "https://open.spotify.com/playlist/6lqhIVExqpFLhxP48pqD19",
     },
     "celtic_bangers": {
         "ui_key": "b",
