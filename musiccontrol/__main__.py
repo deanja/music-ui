@@ -4,7 +4,7 @@ from musiccontrol.spotify import player
 
 def take_input():
     user_input = input(
-        "Choose a music genre to play: [s]ocial_intrigue, [a]nything, [c]ombat, celtic_[b]angers. [n]ext_track or e[x]it. "
+        "Choose a music mood to play: [s]ocial_intrigue, [a]nything, [c]ombat, celtic_[b]angers. [n]ext_track or e[x]it. "
     )
     # doing something with the input
     return user_input.lower()
@@ -21,8 +21,11 @@ def play_mood(mood_id, spotify):
     playlist_uri = mood_config[3]
 
     result = player.play_selection(spotify, playlist_uri=playlist_uri, shuffle=shuffle)
-    if not result.is_success:
-        print(result.message)
+    if result.is_success:
+        # todo: add mood description.
+        print("Playing: ", mood_id)
+    else:
+        print("Problem: ", result.message)
 
 
 def check_config():
