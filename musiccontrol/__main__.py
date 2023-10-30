@@ -1,3 +1,4 @@
+from musiccontrol.data.moods import moods
 from musiccontrol.spotify import player
 
 
@@ -9,60 +10,57 @@ def take_input():
     return user_input.lower()
 
 
-def play_social_intrigue_music(spotify):
-    playlist_uri = "https://open.spotify.com/playlist/0L5LqTiW0NOjke9FhsTUyA"
-    result = player.play_selection(spotify, playlist_uri, shuffle=True)
+def play_mood(mood_id, spotify):
+    playlist_uri = None
+    track_uris = None
+
+    mood_config = moods[mood_id]
+
+    # todo: support track_uris
+    shuffle = mood_config[1]
+    playlist_uri = mood_config[3]
+
+    result = player.play_selection(spotify, playlist_uri=playlist_uri, shuffle=shuffle)
     if not result.is_success:
         print(result.message)
 
 
-def play_celtic_bangers(spotify):
-    playlist_uri = "https://open.spotify.com/playlist/3HXdGvoKWYfjd6PxWvYb7D"
-    result = player.play_selection(spotify, playlist_uri, shuffle=False)
-    if not result.is_success:
-        print(result.message)
-
-
-def play_neutral_music(spotify):
-    playlist_uri = "https://open.spotify.com/playlist/4vAFb3x82WjaE6Gqq5Doxm"
-    result = player.play_selection(spotify, playlist_uri, shuffle=True)
-    if not result.is_success:
-        print(result.message)
-
-
-def play_combat_music(spotify):
-    playlist_uri = "https://open.spotify.com/playlist/6FohP6m1ipvNjgllOH4HLt"
-    result = player.play_selection(spotify, playlist_uri, shuffle=True)
-    if not result.is_success:
-        print(result.message)
-
-
-def fade_out_music():
-    raise NotImplementedError
+def check_config():
+    if not isinstance(moods, dict):
+        raise RuntimeError("Invalid moods config - must be a dictionary.")
 
 
 if __name__ == "__main__":
     print("Welcome to Music Control.")
+
+    check_config()
+
     keep_running = True
 
     spotify = player.get_spotify()
 
     while keep_running == True:
-        action = take_input()
-        match action:
-            case "s":
-                play_social_intrigue_music(spotify)
-            case "a":
-                play_neutral_music(spotify)
-            case "c":
-                play_combat_music(spotify)
-            case "b":
-                play_celtic_bangers(spotify)
-            case "n":
-                player.next_track(spotify)
+        input_string = take_input()
+        match input_string:
+            # App control
             case "x":
                 keep_running = False
+                break
+
+            # Music player control - general
+            case "n":
+                player.next_track(spotify)
+
             case _:
-                print("Warning: unkown option selected.")
+                # Assume a mood was selected
+                try:
+                    # reverse lookup the config to get mood id for the input string
+                    mood_id = next(
+                        key for key, value in moods.items() if value[0] == input_string
+                    )
+                except StopIteration:
+                    print("Unkown option selected:", input_string)
+                else:
+                    play_mood(mood_id, spotify)
 
     print("Exiting.")
