@@ -14,10 +14,10 @@ def play_mood(mood_id, spotify):
 
     mood_config = moods[mood_id]
 
-    shuffle = mood_config[1]
-    playlist_uri = mood_config[2]
+    shuffle = mood_config["shuffle"]
+    context_uri = mood_config["spotify_context_uri"]
 
-    result = player.play_selection(spotify, playlist_uri=playlist_uri, shuffle=shuffle)
+    result = player.play_selection(spotify, context_uri=context_uri, shuffle=shuffle)
     if result.is_success:
         # todo: add mood description.
         print("Playing: ", mood_id)
@@ -54,9 +54,9 @@ if __name__ == "__main__":
             case _:
                 # Assume a mood was selected
                 try:
-                    # reverse lookup the config to get mood id for the input string
+                    # reverse lookup the config to find the mood id by its ui_key.
                     mood_id = next(
-                        key for key, value in moods.items() if value[0] == input_string
+                        key for key, value in moods.items() if value["ui_key"] == input_string
                     )
                 except StopIteration:
                     print("Unkown option selected:", input_string)

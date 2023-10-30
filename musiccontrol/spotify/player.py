@@ -19,7 +19,7 @@ def get_spotify():
     return spotify
 
 
-def play_selection(spotify, playlist_uri, shuffle=True):
+def play_selection(spotify, context_uri, shuffle=True):
     # Play selected music on Spotify.
 
     # For etiquette don't assume we can start playing on an inactive device.
@@ -28,14 +28,14 @@ def play_selection(spotify, playlist_uri, shuffle=True):
             False, "No device active. Press Play on any Spotify device and try again."
         )
 
-    if playlist_uri == None:
-        return Result(False, "No playlist selected.")
+    if context_uri == None:
+        return Result(False, "No content (playlist, artist or album) selected.")
 
     spotify.shuffle(state=shuffle)
 
     # Change playback now, not at completion of current track.
     # todo: implement a fade of a few seconds if device supports volume adjustment.
-    spotify.start_playback(context_uri=playlist_uri)
+    spotify.start_playback(context_uri=context_uri)
 
     return Result(True, "New selection now playing.")
 
