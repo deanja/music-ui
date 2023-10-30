@@ -3,6 +3,7 @@ from musiccontrol.spotify import player
 
 
 def take_input():
+    """Take in put from the user on console."""
     user_input = input(
         "Choose a music mood to play: [s]ocial_intrigue, [a]nything, [c]ombat, celtic_[b]angers. [n]ext_track or e[x]it. "
     )
@@ -10,6 +11,7 @@ def take_input():
 
 
 def play_mood(mood_id, spotify):
+    """Play music for a given mood"""
     playlist_uri = None
 
     mood_config = moods[mood_id]
@@ -26,6 +28,7 @@ def play_mood(mood_id, spotify):
 
 
 def check_config():
+    """Check for errors in user configuration settings"""
     if not isinstance(moods, dict):
         raise RuntimeError("Invalid moods config - must be a dictionary.")
 
@@ -56,7 +59,9 @@ if __name__ == "__main__":
                 try:
                     # reverse lookup the config to find the mood id by its ui_key.
                     mood_id = next(
-                        key for key, value in moods.items() if value["ui_key"] == input_string
+                        key
+                        for key, value in moods.items()
+                        if value["ui_key"] == input_string
                     )
                 except StopIteration:
                     print("Unkown option selected:", input_string)
