@@ -1,30 +1,7 @@
+import sys
 from musiccontrol.data.moods import moods
+from musiccontrol import console_app, web_app
 from musiccontrol.spotify import player
-
-
-def take_input():
-    """Take in put from the user on console."""
-    user_input = input(
-        "Choose a music mood to play: [s]ocial_intrigue, [a]nything, [c]ombat, celtic_[b]angers. [n]ext_track or e[x]it. "
-    )
-    return user_input.lower()
-
-
-def play_mood(mood_id, spotify):
-    """Play music for a given mood"""
-    playlist_uri = None
-
-    mood_config = moods[mood_id]
-
-    shuffle = mood_config["shuffle"]
-    context_uri = mood_config["spotify_context_uri"]
-
-    result = player.play_selection(spotify, context_uri=context_uri, shuffle=shuffle)
-    if result.is_success:
-        # todo: add mood description.
-        print("Playing: ", mood_id)
-    else:
-        print("Problem: ", result.message)
 
 
 def check_config():
@@ -38,34 +15,19 @@ if __name__ == "__main__":
 
     check_config()
 
-    keep_running = True
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "web":
+            # Flask web server seems to need specific host IP when Windows ports are
+            # explicitly forwarded to WSL2.
+            flask_host = "172.21.187.50"
+            flask_port = 8811
 
-    spotify = player.get_spotify()
-
-    while keep_running == True:
-        input_string = take_input()
-        match input_string:
-            # App control
-            case "x":
-                keep_running = False
-                break
-
-            # Music player control - general
-            case "n":
-                player.next_track(spotify)
-
-            case _:
-                # Assume a mood was selected
-                try:
-                    # reverse lookup the config to find the mood id by its ui_key.
-                    mood_id = next(
-                        key
-                        for key, value in moods.items()
-                        if value["ui_key"] == input_string
-                    )
-                except StopIteration:
-                    print("Unkown option selected:", input_string)
-                else:
-                    play_mood(mood_id, spotify)
+            web_app.app.run(host=flask_host, port=flask_port)
+        else:
+            raise LookupError(
+                "'%s' is not a valid command line argument." % sys.argv[1]
+            )
+    else:
+        console_app.run()
 
     print("Exiting.")
