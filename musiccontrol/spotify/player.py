@@ -8,14 +8,9 @@ Result = namedtuple("Result", ["is_success", "message"])
 def get_spotify():
     """Get an authenticated Spotify client."""
     scope = ["user-modify-playback-state", "user-read-playback-state"]
-    redirect_uri = "https://xxz123.notexist.local"
-    show_dialog = "true"
 
-    token = util.prompt_for_user_token(
-        scope=scope, redirect_uri=redirect_uri, show_dialog=show_dialog
-    )
-
-    spotify = spotipy.Spotify(auth=token)
+    auth_manager = spotipy.SpotifyOAuth(scope=scope)
+    spotify = spotipy.Spotify(auth_manager=auth_manager)
 
     return spotify
 
