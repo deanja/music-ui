@@ -1,3 +1,4 @@
+import logging
 import spotipy
 from spotipy import util
 from collections import namedtuple
@@ -12,6 +13,7 @@ def get_spotify():
     auth_manager = spotipy.SpotifyOAuth(scope=scope)
     spotify = spotipy.Spotify(auth_manager=auth_manager)
 
+    logging.debug("Got new instance of spotipy.Spotify.")
     return spotify
 
 
@@ -35,6 +37,7 @@ def play_selection(spotify, context_uri, shuffle=True):
     # todo: implement a fade of any currently playing track for a few seconds, if the
     # device supports volume adjustment.
     spotify.start_playback(context_uri=context_uri)
+    logging.debug("Started playback of: ", context_uri)
 
     return Result(True, "New selection now playing.")
 
@@ -42,3 +45,4 @@ def play_selection(spotify, context_uri, shuffle=True):
 def next_track(spotify):
     """Start playing next track."""
     spotify.next_track()
+    logging.debug("Skipped to next track")

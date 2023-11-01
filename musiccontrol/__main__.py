@@ -1,7 +1,7 @@
 import sys
+import logging
 from musiccontrol.data.moods import moods
 from musiccontrol import console_app, web_app
-from musiccontrol.spotify import player
 
 
 def check_config():
@@ -22,12 +22,15 @@ if __name__ == "__main__":
             flask_host = "172.21.187.50"
             flask_port = 8811
 
+            logging.info("Running app as web server.")
             web_app.app.run(host=flask_host, port=flask_port)
         else:
+            logging.exception("Invalid command line argument.")
             raise LookupError(
                 "'%s' is not a valid command line argument." % sys.argv[1]
             )
     else:
+        logging.info("Running app as console.")
         console_app.run()
 
-    print("Exiting.")
+logging.info("Exiting.")
