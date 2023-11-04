@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "music-control"
+name = "music-ui"
 version = "0.1.0"
 description = "Novel UIs for playing recorded music"
 authors = ["Your Name <you@example.com>"]

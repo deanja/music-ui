@@ -1,5 +1,5 @@
-from musiccontrol.data.moods import moods
-from musiccontrol import controller
+from musicui.data.moods import moods
+from musicui import controller
 
 
 def take_input():

@@ -1,5 +1,5 @@
 from flask import Flask
-from musiccontrol import controller
+from musicui import controller
 
 
 app = Flask(__name__)

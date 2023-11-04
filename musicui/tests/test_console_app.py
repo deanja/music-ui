@@ -1,4 +1,4 @@
-from musiccontrol import __main__
+from musicui import console_app
 
 
 def test_take_input_returns_lowercase(monkeypatch):
@@ -7,5 +7,5 @@ def test_take_input_returns_lowercase(monkeypatch):
     monkeypatch.setattr("builtins.input", lambda _: "N")
 
     # go about using input() like you normally would:
-    result = __main__.take_input()
+    result = console_app.take_input()
     assert result == "n"

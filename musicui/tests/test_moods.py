@@ -1,4 +1,4 @@
-from musiccontrol.data.moods import moods
+from musicui.data.moods import moods
 
 
 def test_moods_is_dict():

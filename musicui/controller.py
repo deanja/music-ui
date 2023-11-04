@@ -1,5 +1,5 @@
-from musiccontrol.data.moods import moods
-from musiccontrol.spotify import player
+from musicui.data.moods import moods
+from musicui.spotify import player
 
 
 spotify = None

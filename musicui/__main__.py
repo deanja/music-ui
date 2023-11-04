@@ -1,7 +1,7 @@
 import sys
 import logging
-from musiccontrol.data.moods import moods
-from musiccontrol import console_app, web_app
+from musicui.data.moods import moods
+from musicui import console_app, web_app
 
 
 def check_config():
