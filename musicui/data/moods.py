@@ -1,4 +1,4 @@
-moods = {
+MOODS = {
     "anything": {
         "ui_key": "a",
         "shuffle": True,

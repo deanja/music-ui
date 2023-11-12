@@ -1,4 +1,4 @@
-from musicui.data.moods import moods
+from musicui.data.moods import MOODS
 from musicui.spotify import player
 
 
@@ -20,7 +20,7 @@ def next_track():
 def play_mood(mood_id):
     """Play music for a given mood"""
 
-    mood_config = moods[mood_id]
+    mood_config = MOODS[mood_id]
 
     shuffle = mood_config["shuffle"]
     context_uri = mood_config["spotify_context_uri"]

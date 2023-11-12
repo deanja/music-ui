@@ -1,4 +1,4 @@
-from musicui.data.moods import moods
+from musicui.data.moods import MOODS
 from musicui import controller
 
 
@@ -31,7 +31,7 @@ def run():
                     # reverse lookup the config to find the mood id by its ui_key.
                     mood_id = next(
                         key
-                        for key, value in moods.items()
+                        for key, value in MOODS.items()
                         if value["ui_key"] == input_string
                     )
                 except StopIteration:

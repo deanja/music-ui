@@ -2,7 +2,7 @@ import sys
 import os
 import logging
 from dotenv import load_dotenv
-from musicui.data.moods import moods
+from musicui.data.moods import MOODS
 from musicui import console_app, web_app
 
 load_dotenv()
@@ -16,7 +16,7 @@ DEFAULT_RUN_MODE = "CONSOLE"
 
 def check_config():
     """Check for errors in user configuration settings"""
-    if not isinstance(moods, dict):
+    if not isinstance(MOODS, dict):
         raise RuntimeError("Invalid moods config - must be a dictionary.")
 
 
