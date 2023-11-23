@@ -1,6 +1,6 @@
 import logging
+from musicui import config
 import spotipy
-from spotipy import util
 from collections import namedtuple
 
 Result = namedtuple("Result", ["is_success", "message"])
@@ -10,7 +10,12 @@ def get_spotify():
     """Get an authenticated Spotify client."""
     scope = ["user-modify-playback-state", "user-read-playback-state"]
 
-    auth_manager = spotipy.SpotifyOAuth(scope=scope)
+    auth_manager = spotipy.SpotifyOAuth(
+        client_id=config.Config().spotify.client_id.get_secret_value(),
+        client_secret=config.Config().spotify.client_secret.get_secret_value(),
+        redirect_uri=str(config.Config().spotify.redirect_uri),
+        scope=scope,
+    )
     spotify = spotipy.Spotify(auth_manager=auth_manager)
 
     logging.debug("Got new instance of spotipy.Spotify.")
