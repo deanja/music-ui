@@ -12,6 +12,8 @@ black = "^23.10.1"
 spotipy = "^2.23.0"
 flask = "^3.0.0"
 python-dotenv = "^1.0.0"
+confz = "^2.0.1"
+pydantic = "^2.5.1"
 
 
 [tool.poetry.group.dev.dependencies]

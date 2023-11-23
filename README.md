@@ -26,11 +26,56 @@ The philosophy is to keep each dedicated UI simple.  For example, play a mood/ge
 
 ## Core app configuration
 
-Register an app on [Spotify for Developers](https://developer.spotify.com/) .   
+See `config.py` for configurable elements and their allowed and default values.
 
-Create a file called `.env` in the app's root folder. Populate your settings.  See `.env_example` file for guidance.
+The configuration values are loaded from (in order of precedence):
 
-Authentication is via Spotify OAuth2. See the Spotipy documentation. Spotipy is a Pyhon wrapper for the Spotify Web API.
+1. command line arguments
+2. environment variables
+3. TOML configuration files
+4. the defaults in `config.py`
+
+So, for example, command line arguments will override environment variables.
+
+Command line arguments are in the format `--<argname> <argvalue>`, for example, `--log_level DEBUG`, `--web.enabled true`.
+
+Environment variable names require a prefix of `MUSICUI_`, for example `MUSICUI_LOG_LEVEL` is converted to `log_level`. A dot is used for nested names, for example, `MUSICUI_WEB.ENABLED` is converted to `web.enabled`.
+
+TOML file configuration requires this structure in your home directory:
+
+```
+├── .musicui
+    ├── config.toml
+    ├── secrets.toml
+```
+
+An example `config.toml` file:
+```
+log_level = "DEBUG"
+
+[web]
+enabled = true
+port = 8811
+
+[spotify]
+redirect_uri = "https://my-cool-music-app.com"
+```
+
+## Spotify configuration
+
+Register an app on [Spotify for Developers](https://developer.spotify.com/). 
+
+music-ui uses Spotipy, which is a Python wrapper for the Spotify Web API. Authentication is via Spotify OAuth2 so music-ui needs values for your Spotify app's:
+
+- `client_id`
+- `client_secret`
+- `redirect_uri` 
+
+They can be supplied to music-ui in the same way as other music-ui configuration (see above). 
+If using TOML files, put the `client_id` and `client_secret` in the `secrets.toml` file 
+because they are sensitive fields.
+
+See the Spotipy documentation for more details on those values.
 
 ## Music mood and UI configuration
 
@@ -48,16 +93,17 @@ Then use predefined keyboard keys to play music from your predefined moods/playl
 
 ## Web mode
 
-`python -m music-ui web`
+`python -m music-ui --web.enabled true`
 
 Then hit these endpoints from your own UI hardware/app:
-`/mood/play/<mood_id>` where `<mood_id>` is a mood_id you configured in  `musicui/moods/moods.py`
+
+- `/mood/play/<mood_id>` where `<mood_id>` is a mood_id you configured in  `musicui/moods/moods.py`
+- `/next` to skip to next track.
 
 # Roadmap
 
 - Stop/resume playback. A must-have feature on any device that controls noise.
 - Multiple threads - to handle input from hardware controls built on Raspberry Pi
-- File-based configuration (YAML?)
 - Music sources other than Spotify
 
 # Contributing
