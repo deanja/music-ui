@@ -1,35 +1,43 @@
+import logging
 from musicui.data.moods import MOODS
 from musicui.spotify import player
 
 
-spotify = None
-
-
-def get_spotify():
-    """Lazy initialise Spotify."""
-    global spotify
-    if spotify == None:
-        spotify = player.get_spotify()
-    return spotify
-
-
 def next_track():
-    player.next_track(get_spotify())
+    """Skip playback forward to next track."""
+    player.next_track()
 
 
-def play_mood(mood_id):
-    """Play music for a given mood"""
+def play_mood(mood_id: str) -> bool:
+    """Play music for a given mood.
+    
+    Args:
+        mood_id: String key for the mood of music to play, for example, "combat".
 
-    mood_config = MOODS[mood_id]
+    Returns:
+        Boolean, whether the mood could be played.
+
+    Raises:
+        KeyError: If the mood_id is not configured.
+    """
+
+    try:
+        mood_config = MOODS[mood_id]
+    except KeyError as error:
+        logging.error("Mood: \"%s\" not found in configuration.", mood_id)
+        raise error
+
+    logging.debug("Requested mood config: %s", mood_config)
 
     shuffle = mood_config["shuffle"]
     context_uri = mood_config["spotify_context_uri"]
 
-    result = player.play_selection(
-        get_spotify(), context_uri=context_uri, shuffle=shuffle
+    result = player.play_selection(context_uri=context_uri, shuffle=shuffle
     )
     if result.is_success:
         # todo: add mood description.
-        print("Playing: ", mood_id)
+        logging.info("Playing mood: %s with context_uri: %s", mood_id, mood_config["spotify_context_uri"])
+        return True
     else:
-        print("Problem: ", result.message)
+        logging.warn("Problem: %s", result.message)
+        return False
