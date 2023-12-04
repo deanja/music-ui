@@ -23,9 +23,9 @@ def play_mood(mood_id: str) -> bool:
 
     try:
         mood_config = MOODS[mood_id]
-    except KeyError as error:
+    except KeyError:
         logging.error("Mood: \"%s\" not found in configuration.", mood_id)
-        raise error
+        raise
 
     logging.debug("Requested mood config: %s", mood_config)
 
